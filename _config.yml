@@ -78,9 +78,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "Simón Roca-Sotelo"
+  name             : "Keshav Bhandari"
   avatar           : "profile.jpg"
-  bio              : "PhD Student UC3M Machine Learning, NLP: Topic Models & Word Embeddings."
+  bio              : "Graduate Student at Northwestern University, Artificial Intelligence, Audio Signal Processing."
   location         : "Madrid"
   employer         :
   googlescholar    : "https://scholar.google.es/citations?user=rfSDQy8AAAAJ&hl=es&oi=ao"
@@ -92,7 +92,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "simon-roca"
+  github           : "keshavbhandari"
   google_plus      :
   keybase          :
   instagram        :

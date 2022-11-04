@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Keshav's Webpage"
+title                    : "Keshav Bhandari"
 title_separator          : "-"
 name                     : &name "Keshav Bhandari"
 description              : &description "Graduate Student at Northwestern University. Artificial Intelligence, Audio Signal Processing."
@@ -80,7 +80,7 @@ analytics:
 author:
   name             : "Keshav Bhandari"
   avatar           : "profile.jpg"
-  bio              : "Graduate Student at Northwestern University, Artificial Intelligence, Audio Signal Processing."
+  bio              : "Graduate Student at Northwestern University"
   location         : "Evanston, IL"
   employer         :
   googlescholar    : "https://scholar.google.es/citations?user=rfSDQy8AAAAJ&hl=es&oi=ao"

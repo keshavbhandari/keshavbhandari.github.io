@@ -83,7 +83,7 @@ author:
   bio              : "Graduate Student at Northwestern University"
   location         : "Evanston, IL"
   employer         :
-  googlescholar    : "https://scholar.google.es/citations?user=rfSDQy8AAAAJ&hl=es&oi=ao"
+  googlescholar    :
   email            : "keshavbhandari@gmail.com"
   uri              :
   bitbucket        :
@@ -104,7 +104,7 @@ author:
   stackoverflow    :
   steam            :
   tumblr           :
-  twitter          : "replacethistwitterhandle"
+  twitter          :
   vine             :
   weibo            :
   xing             :

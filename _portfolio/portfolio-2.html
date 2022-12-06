@@ -1,7 +1,82 @@
 ---
-title: "Portfolio item number 2"
-excerpt: "Short description of portfolio item number 2 <br/><img src='/images/500x300.png'>"
+title: "Bird Sound Denoiser"
+excerpt: "In this project, I applied Facebook's DemucsV2 - state-of-the-art audio denoiser to remove noisy environmental background sounds from a bird sound dataset. These sounds consist of insects such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean set after a source separation task."
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML.
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Sound demos for "DiffWave: A Versatile Diffusion Model fo Audio Synthersis"</title>
+
+  </head>
+
+    <p><i>Noisy Audio</i></p>
+    <audio controls>
+        <source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_noisy.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <p><i>Enhanced Audio</i></p>
+    <audio controls>
+        <source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_enhanced.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <p><i>Clean Audio</i></p>
+    <audio controls>
+        <source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_clean.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <br>
+
+
+
+    <h3> Denoised Audio Samples</h3>
+    Here are a few audio samples that have been denoised by DemucsV2.
+    <br> </br>
+
+    <table>
+      <thead>
+        <tr>
+          <th align="middle">Noisy</th>
+          <th align="middle">Enhanced</th>
+          <th align="middle">Clean</th>
+        </tr>
+      </thead>
+
+       <tbody>
+        <tr>
+          <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_enhanced.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_denoiser/UR_SD05_20200211_080500-5_clean.wav" type="audio/wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-1_noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-1_enhanced.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-1_clean.wav" type="audio/wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-4_noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-4_enhanced.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_050500-4_clean.wav" type="audio/wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_052500-2_noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_052500-2_enhanced.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210109_052500-2_clean.wav" type="audio/wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210111_053500-1_noisy.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210111_053500-1_enhanced.wav" type="audio/wav"></audio></td>
+          <td><audio controls style="width: 250px; height: 50px"><source src="files/audio/bird_sound_denoiser/URM2_SD46_20210111_053500-1_clean.wav" type="audio/wav"></audio></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+</html>

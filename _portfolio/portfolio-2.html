@@ -1,16 +1,27 @@
 ---
 title: "Bird Sound Denoiser"
-excerpt: "In this project, I applied Facebook's DemucsV2 - state-of-the-art audio denoiser to remove noisy environmental background sounds from a bird sound dataset. These sounds consist of insects such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean set after a source separation task."
+excerpt: "In this project, I applied Facebook's Demucs - state-of-the-art audio denoiser to remove noisy environmental background sounds from a bird sound dataset. These sounds consist of insects such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean set after a source separation task. Click to read more and listen to the audio samples."
 collection: portfolio
 ---
 
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-In this project, I applied Facebook's DemucsV2 - state-of-the-art audio denoiser to remove noisy environmental background sounds from a bird sound dataset. These sounds consist of insects such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean set after a source separation task.
+In this project, I applied <a href="https://github.com/facebookresearch/denoiser">Facebook's Demucs</a> - state-of-the-art audio denoiser to remove noisy environmental background sounds from a bird sound dataset. These sounds consist of insects such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean set after a source separation task.
+<br><br>
+To synthetically generate the noisy samples, I used a technique called <a href="https://github.com/zafarrafii/REPET-Python">Repet-SIM</a> for separating foreground and background sounds from another noisy bird sound dataset.
+<br><br>
+According to their website, <i>"The REPET methods work well when the repeating background has periodically repeating patterns (e.g., jackhammer noise); however, the repeating patterns can also happen intermittently or without a global or local periodicity (e.g., frogs by a pond). REPET-SIM is a generalization of REPET that can also handle non-periodically repeating structures, by using a similarity matrix to identify the repeating elements"</i>>.
+<br><br>
+Then these background environmental sounds were added to the clean audio files with a certain SNR. The advantages of creating the noisy audio in this way are as follows:
+<ul>
+  <li>First, my primary dataset did not have clean audio targets.</li>
+  <li>Second, by mixing in background sounds from an external dataset, I effectively re-created naturally occurring environmental sounds for avian vocalizations.</li>
+  <li>The reason I couldn't use Repet-SIM instead of a denoising model is because foreground sounds contained artifacts.</li>
+</ul>
 
     <h3> Denoised Audio Samples</h3>
-    Here are a few audio samples that have been denoised by DemucsV2.
+    Here are a few audio samples that were denoised by DemucsV2. While the model is able to remove various background sounds, it doesn't do well for denoising cricket sounds.
     <br>
 
     <table>

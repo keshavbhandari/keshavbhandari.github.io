@@ -17,7 +17,7 @@ try to address this problem by generating synthetic avian audio samples as
 a type of augmentation that can be used in future works to improve the bird
 sound classification accuracy.
 
-Click [here](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis/) to read more about this work and listen to the generated samples.
+Click [HERE](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis/) to read more about this work and listen to the generated samples.
 
 ### [Bird Sound Denoiser](https://keshavbhandari.github.io/portfolio/bird-sound-denoiser/)
 *Evanston, 2022* <br/>
@@ -26,7 +26,7 @@ noisy environmental background sounds from a bird sound dataset. These sounds co
 such as crickets, rain, wind, machines, vehicles, etc. which were synthetically added in to a clean
 set through a source separation task.
 
-Click [here](https://keshavbhandari.github.io/portfolio/bird-sound-denoiser/) to read more about this work and listen to the generated samples.
+Click [HERE](https://keshavbhandari.github.io/portfolio/bird-sound-denoiser/) to read more about this work and listen to the generated samples.
 
 ### [Audioneme - Detecting Speech Disorder in Children](https://keshavbhandari.github.io/portfolio/child-speech-disorder-detection/)
 *Evanston, 2022* <br/>
@@ -40,7 +40,7 @@ transcriptions to automate screening and assessment of speech disorders and spee
 The dataset for this project consisted of weakly labeled utterances comprising ~15,000 recordings of children 
 with and without speech disorder.
 
-Click [here](https://keshavbhandari.github.io/portfolio/child-speech-disorder-detection/) to read more about this work.
+Click [HERE](https://keshavbhandari.github.io/portfolio/child-speech-disorder-detection/) to read more about this work.
 
 
 ### [Efficient Scaling and Pre-Training of Language Models with Electra and Reformers](https://keshavbhandari.github.io/portfolio/electra-reformer/)
@@ -50,7 +50,7 @@ for the Electra pre-training methodology, thereby allowing the network to scale 
 counterpart while maintaining the same memory requirements. The subsequent downstream performance of this scaled up architecture 
 is at par with the transformer based Electra benchmark, while being pre-trained using only a third of the data.
 
-Click [here](https://keshavbhandari.github.io/portfolio/electra-reformer/) to read more about this work.
+Click [HERE](https://keshavbhandari.github.io/portfolio/electra-reformer/) to read more about this work.
 
 ### [Augmentations to improve rare bird call classification for a highly imbalanced multi-label soundscape environment](https://keshavbhandari.github.io/portfolio/bird-sound-classification-augmentations/)
 *Evanston, 2021* <br/>
@@ -59,6 +59,6 @@ environment without a clear distinction between foreground and background specie
 of various data augmentation methods to improve the classification of rare bird calls against some of the key challenges typical to a 
 soundscape dataset - multiple overlapping bird calls, high environmental noise and high class imbalance.
 
-Click [here](https://keshavbhandari.github.io/portfolio/bird-sound-classification-augmentations/) to read more about this work.
+Click [HERE](https://keshavbhandari.github.io/portfolio/bird-sound-classification-augmentations/) to read more about this work.
 
 

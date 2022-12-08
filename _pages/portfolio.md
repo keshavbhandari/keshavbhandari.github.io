@@ -5,7 +5,7 @@ permalink: /portfolio/
 author_profile: true
 ---
 
-### [ChirpNet - A Neural Bird Sound Synthesis Model](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis/)
+### [ChirpNet - A Neural Bird Sound Synthesis Model](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis.html)
 *Evanston, 2022* <br/>
 Automated species recognition through Artificial Intelligence (AI) can provide
 ecologists and wildlife conservationists the means to detect and monitor
@@ -17,7 +17,7 @@ try to address this problem by generating synthetic avian audio samples as
 a type of augmentation that can be used in future works to improve the bird
 sound classification accuracy.
 
-Click <ins>*[**here**](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis/)*</ins> to read more about this work and listen to the generated samples.
+Click <ins>*[**here**](https://keshavbhandari.github.io/portfolio/bird-sound-synthesis.html)*</ins> to read more about this work and listen to the generated samples.
 
 ### [Bird Sound Denoiser](https://keshavbhandari.github.io/portfolio/bird-sound-denoiser/)
 *Evanston, 2022* <br/>

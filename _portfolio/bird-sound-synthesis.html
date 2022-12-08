@@ -1,3 +1,4 @@
+<!--
 ---
 title: "ChirpNet - A Neural Bird Sound Synthesis Model"
 excerpt: "Automated species recognition through Artificial Intelligence (AI) can provide
@@ -11,6 +12,7 @@ a type of augmentation that can be used in future works to improve the bird
 sound classification accuracy."
 collection: portfolio
 ---
+-->
 
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,7 +22,7 @@ collection: portfolio
 <br>
 <b>Tonmoay Deb (tonmoay.deb@u.northwestern.edu)</b>
 <br>
-<br>
+
 <h1>Course</h1>
 <b>Northwestern University</b>
 <br>
@@ -86,14 +88,35 @@ containing birds whose vocalizations were distinct and whose audio clips do not 
 from long periods of silence gaps in between the calls.
 <br>
 
+<h2>How did we choose the final training samples?</h2>
+We manually went through 3-4 random audio clips for all the species folders and rated them on
+a scale of 1-5 on the following attributes:
+<ul>
+    <li>Silence gaps between calls: Less = better</li>
+    <li>Vocalization of background species: We decided to retain audio clips where background
+        species had sounds as opposed to complete silence </li>
+    <li>Sharpness and clarity of foreground calls</li>
+    <li>Number of training samples per folder for each species: More = better</li>
+</ul>
+We chose 2,336 audio samples out of the lot by filtering the ratings which were 4.5 or above. These were used towards
+training (88%), validation (6%) and test (6%).
+
 <h2>Model Choice</h2>
+There exist many potential ways to synthesize sounds (autoregressive, GAN, diffusion, flow based).
+However, we decided to go with autoregressive methods as we thought these may be suitable to yield good quality generated audio.
+This is because autoregressive models can tractably compute exact likelihoods of unbounded length,
+making them appropriate for high entropy distribution problems such as bird sound synthesis. Before arriving to this conclusion,
+also experimented with a variety of models types such as WaveGAN, DiffWave, parallel WaveGAN (vocoder) and SaShiMi. In our experiments,
+we found parallel WaveGAN vocoder to recreate high-fidelity audio from a spectrogram representation. However, this was not an end-to-end
+generation framework and we would need to train a spectrogram generator separately for this task. So our next best choice was to go with
+SaShiMi, an autoregressive state-of-the-art state space model for unconditional generation.
 
 <h2>State space models</h2>
 
 
 <h2>SaShiMi Model Architecture + Our Enhancements</h2>
 <img src="/files/audio/bird_sound_synthesis/SaShiMi_Architecture.png" alt="SaShiMi Architecture" style="width:967px;height:400px;">
-<i>Karan Goel, Albert Gu, Chris Donahue, Christopher Re Proceedings of the 39th International Conference on Machine Learning, PMLR 162:7616-7633, 2022.</i>
+<br><i>Karan Goel, Albert Gu, Chris Donahue, Christopher Re Proceedings of the 39th International Conference on Machine Learning, PMLR 162:7616-7633, 2022.</i>
 <br><br>
 As seen in the image above, the SaShiMi architecture consists of
 multiple tiers, with each tier composed of a stack of residual S4 blocks. The top tier processes the raw audio
@@ -109,7 +132,8 @@ implement the class conditioning at strategic locations throughout the network t
 the influence on the generated timestep.
 
 <h2>Experiments</h2>
-We trained the model for 150 epochs on 2,155 5 second audio clips at a 16 kHz sampling rate.
+We trained the model for 150 epochs on 2,155 five second audio clips at a 16 kHz sampling rate. The training time
+took ~24 hours using 3 GPUs.
 <br>
 
 <h3>Generated Audio Samples</h3>
@@ -118,6 +142,7 @@ We trained the model for 150 epochs on 2,155 5 second audio clips at a 16 kHz sa
     <tr>
       <th align="middle">Unconditional Generation (no prompt)</th>
       <th align="middle">Conditional Generation (1 sec prompt)</th>
+      <th align="middle">Conditional Generation (3 sec prompt)</th>
     </tr>
   </thead>
 
@@ -125,19 +150,50 @@ We trained the model for 150 epochs on 2,155 5 second audio clips at a 16 kHz sa
     <tr>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_1.wav" type="audio/wav"></audio></td>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_1.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_8.00s_gen_1.wav" type="audio/wav"></audio></td>
     </tr>
 
     <tr>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_2.wav" type="audio/wav"></audio></td>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_2.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_8.00s_gen_2.wav" type="audio/wav"></audio></td>
     </tr>
 
     <tr>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_8.00s_gen_3.wav" type="audio/wav"></audio></td>
     </tr>
 
   </tbody>
 </table>
 
+<h2>Discussion</h2>
+While the SaShiMi model is able to learn the amplitude envelope of the avian vocalizations, it has trouble learning the
+frequencies. As a result, the generated sounds sound noisy. There are some examples in which the model generates
+whistling like sounds towards the end. <b>In addition, towards the very end of the conditionally generated audio clip using
+the 3-second prompt (last row), the generated sounds seem to be birds chirping in the background. Although these sounds are
+    faint and scattered all over, it is still promising!</b>
+<br><br>
+We have a few theories as to why the model is not able to learn the frequencies well enough, resulting in generated sounds
+being noisy:
+<ul>
+    <li>High entropy problem: While this dataset was the cleanest we could find online, bird sound synthesis
+    is a high entropy problem in general. There are overlapping calls from multiple species in the background.
+    The high biodiversity in the environment makes this a very high entropy task.</li>
+    <li>Low energy frequency bins: Extending on the noise levels from the previous point, the background
+    sounds from the environment result in low energies across various frequencies as can be visually inspected
+    via a spectrogram. This translates to learning irrelevant frequencies for the model, resulting in noisy outputs.</li>
+    <li>Silence gaps: While we cherry-picked the training samples which had the least amount of silence between
+    foreground calls, there were still some audio clips that had a 2-3 second silence. This could have adversely impacted
+    the model.</li>
+    <li>Training time and # of training samples: The authors of SaShiMi trained their model on the YouTube dataset
+    for 1 whole week. In comparison, we had only trained ours for 1 day. It's entirely possible that the training time
+    or number of training audio clips (~3 hours) was insufficient.</li>
+</ul>
 
+<h2>Further Improvements / Future Work</h2>
+<ul>
+    <li>Better preprocessing to remove silence between calls could definitely.</li>
+    <li>End-to-end audio spectrogram generation and neural vocoding techniques may also be worth exploring.</li>
+</ul>

@@ -18,10 +18,29 @@ collection: portfolio
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <h1>Project Members</h1>
-<b>Keshav Bhandari (keshavbhandari@gmail.com)</b>
-<br>
-<b>Tonmoay Deb (tonmoay.deb@u.northwestern.edu)</b>
-<br>
+
+<figure class="half">
+  <table>
+  <thead>
+    <tr>
+        <th align="middle"><b>Keshav Bhandari</b> <br> (keshavbhandari@gmail.com)</th>
+        <th align="middle">         </th>
+        <th align="middle"><b>Tonmoay Deb</b> <br> (tonmoay.deb@u.northwestern.edu)</th>
+    </tr>
+  </thead>
+    <tr>
+      <td>
+        <img src="/files/audio/bird_sound_synthesis/keshav.jpg" alt="Keshav" style="width:120px;height:160px;">
+      </td>
+      <td>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+      <td>
+        <img src="/files/audio/bird_sound_synthesis/tonmoay.png" alt="Tonmoay" style="width:240px;height:160px;">
+      </td>
+    </tr>
+  </table>
+</figure>
 
 <h1>Course</h1>
 <b>Northwestern University</b>
@@ -40,7 +59,7 @@ try to address this problem by generating synthetic avian audio samples as
 a type of augmentation that can be used in future works to improve the bird
   sound classification accuracy</b>.
 
-<h2>Motivation and why this project is interesting</h2>
+<h3>Motivation and why this project is interesting</h3>
 This problem is interesting because of two reasons:
 <ul>
   <li>Audio synthesis models have traditionally focused on synthesizing
@@ -93,8 +112,7 @@ Here is a pictorial representation of the high-pitched avian sounds (around 4000
 Human speech is around 100Hz and piano sounds are around 2000 Hz and these datasets do not contain silence gaps or environmental
 noise like bird sound datasets do. This is makes bird sound synthesis an extremely challenging task!
 <br><br>
-<img src="/files/audio/bird_sound_synthesis/frequencies_of_bird_sounds.png" alt="SaShiMi Architecture" style="width:600px;height:350px;">
-
+<img src="/files/audio/bird_sound_synthesis/frequencies_of_bird_sounds.png" alt="Bird Sound Frequencies" style="width:600px;height:350px;">
 
 <h2>How did we choose the final training samples?</h2>
 We manually went through 3-4 random audio clips for all the species folders and rated them on
@@ -199,6 +217,31 @@ took ~24 hours using 3 GPUs.
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
       <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_8.00s_gen_3.wav" type="audio/wav"></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<h3>Real Audio Samples</h3>
+
+<table>
+   <tbody>
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/4_4.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/128_0.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/152_0.wav" type="audio/wav"></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/155_0.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/218_0.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/251_1.wav" type="audio/wav"></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/5_0.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/8_0.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/119_0.wav" type="audio/wav"></audio></td>
     </tr>
 
   </tbody>

@@ -119,8 +119,36 @@ we found parallel WaveGAN vocoder to recreate high-fidelity audio from a spectro
 generation framework and we would need to train a spectrogram generator separately for this task. So our next best choice was to go with
 SaShiMi, an autoregressive state-of-the-art state space model for unconditional generation.
 
-<h2>State space models</h2>
-
+<h3>State space models</h3>
+The State Space Model (SSM) is mainly based on the Control Engineering concept
+<a href="https://srush.github.io/annotated-s4/#part-1-state-space-models">(https://srush.github.io/annotated-s4/#part-1-state-space-models)</a>.
+The authors proposed a non-transformer version to predict very long sequences.
+In Control Engineering, usually, 3 parameters are learned, whereas the authors of the SSM paper omitted one because
+that is essentially a skip connection. So, three matrices (weights) are needed to be learned for the SSM mapping.
+After that, the authors proposed a way to discretize the continuous representation using Bilinear Modeling. Based on that,
+they first built a Recurrent Network intuition for the signal prediction.
+Then, they proposed Discrete Convolution based on the unrolled SSM information and passed it through their special
+filter for prediction. Both the Convolution and Recurrent generation procedures worked well. Using a combination of these
+two, they build the S4 blocks.
+<br><br>
+However, the process comes with two big issues. First, memorizing the long sequence.
+For Transformers, it was very easy. Here, the authors utilized HiPPO (a previously proposed method by one of the authors)
+to memorize a 1-D function over a long time. HiPPO matrix computation is straightforward as it tracks the coefficients of
+Legendre Polynomial (approx. prev. hist) and updates them across time. HiPPO matrix-based discretized outputs are then
+used for the final SSM. Here is a picture that illustrates the process:
+<br><br>
+<img src="/files/audio/bird_sound_synthesis/SSM.png" alt="State Space Models" style="width:800px;height:400px;">
+<br>
+Figure: HiPPO matrix learns to approximate continuous function ‘f’ by adapting the coefficients.
+Image source: https://srush.github.io/annotated-s4
+<br><br>
+The second issue is memory overhead. Usually, S4 blocks are stacked, but they come with high memory requirements.
+The authors found an interesting property in the Transition Matrix (one of the three metrics discussed earlier).
+They are Diagonal Plus Low-Rank (DPLR). The authors utilized the DPLR property of the Transition and HiPPO matrix
+(which was  Normal Plus Low-Rank, but converted to DPLR property) and then made the whole calculation process efficient.
+<br><br>
+In summary, an S4 block is DPLR SSM + DPLR HiPPO and can easily handle long-range sequences as they can be stacked
+multiple times without any memory/computation overhead.
 
 <h2>SaShiMi Model Architecture + Our Enhancements</h2>
 <img src="/files/audio/bird_sound_synthesis/SaShiMi_Architecture.png" alt="SaShiMi Architecture" style="width:967px;height:400px;">
@@ -186,24 +214,24 @@ the 3-second prompt (last row), the generated sounds seem to be birds chirping i
 We have a few theories as to why the model is not able to learn the frequencies well enough, resulting in generated sounds
 being noisy:
 <ul>
-    <li>High entropy problem: While this dataset was the cleanest we could find online, bird sound synthesis
+    <li><b>High entropy problem:</b> While this dataset was the cleanest we could find online, bird sound synthesis
     is a high entropy problem in general. There are overlapping calls from multiple species in the background.
     The high biodiversity in the environment makes this a very high entropy task.</li>
-    <li>Low energy frequency bins: Extending on the noise levels from the previous point, the background
+    <li><b>Low energy frequency bins:</b> Extending on the noise levels from the previous point, the background
     sounds from the environment result in low energies across various frequencies as can be visually inspected
     via a spectrogram. This translates to learning irrelevant frequencies for the model, resulting in noisy outputs.</li>
-    <li>Silence gaps: While we cherry-picked the training samples which had the least amount of silence between
+    <li><b>Silence gaps:</b> While we cherry-picked the training samples which had the least amount of silence between
     foreground calls, there were still some audio clips that had a 2-3 second silence. This could have adversely impacted
     the model.</li>
-    <li>Training time and # of training samples: The authors of SaShiMi trained their model on the YouTube dataset
-    for 1 whole week. In comparison, we had only trained ours for 1 day. It's entirely possible that the training time
-    or number of training audio clips (~3 hours) was insufficient.</li>
+    <li><b>Training time and # of training samples:</b> The authors of SaShiMi trained their model on the YouTube dataset
+    for 1 whole week. In comparison, we only trained ours for 1 day. It's possible that the training time
+    or number of training audio clips (~3 hours) were insufficient.</li>
 </ul>
 
 <h2>Further Improvements / Future Work</h2>
 <ul>
     <li>Better preprocessing to remove silence between calls could definitely.</li>
-    <li>Adding in a bird sound denoiser to the preprocessing pipeline
+    <li>Adding in a bird sound enhancer / environment sound denoiser to the preprocessing pipeline
         such as <a href="https://keshavbhandari.github.io/portfolio/bird-sound-denoiser/">my previous work</a>
         can help reduce the unnecessary frequencies to be learned by the model. </li>
     <li>End-to-end audio spectrogram generation and neural vocoding techniques may also be worth exploring.</li>

@@ -77,7 +77,8 @@ interest.
 <br>
 
 <h2>Dataset Description</h2>
-We use a subset of the xccoverbl dataset in our experiments.
+We use a subset of the xccoverbl dataset in our experiments. This dataset is available on
+<a href="https://www.kaggle.com/rtatman/british-birdsong-dataset">Kaggle</a>.
 It contains vocalizations of 88 bird species commonly observed in the UK,
 gathered from the large Xeno Canto collection. There are 263 audio files in the dataset
 with a sampling rate is 44.1kHz. Of these 263 audio files, we manually selected 153 files
@@ -85,10 +86,58 @@ containing birds whose vocalizations were distinct and whose audio clips do not 
 from long periods of silence gaps in between the calls.
 <br>
 
-Experiments
--State space models
--SaShiMi
+<h2>Model Choice</h2>
 
-Model Results
--Audio Samples
+<h2>State space models</h2>
+
+
+<h2>SaShiMi Model Architecture + Our Enhancements</h2>
+<img src="/files/audio/bird_sound_synthesis/SaShiMi_Architecture.png" alt="SaShiMi Architecture" style="width:967px;height:400px;">
+<i>Karan Goel, Albert Gu, Chris Donahue, Christopher Re Proceedings of the 39th International Conference on Machine Learning, PMLR 162:7616-7633, 2022.</i>
+<br><br>
+As seen in the image above, the SaShiMi architecture consists of
+multiple tiers, with each tier composed of a stack of residual S4 blocks. The top tier processes the raw audio
+waveform at its original sampling rate, while lower tiers process downsampled versions of the input signal.
+The output of lower tiers is upsampled and combined with the input to the tier above it in order to provide a
+stronger conditioning signal. Our enhancements to this architecture is adding a species class conditioning block to the
+64-dimensional hidden representations of each timestep of the input signal right before it gets fed into the downsampled block.
+Here, in the conditioning block, we have an embedding matrix for the species code followed which is added to the hidden
+representation of the audio input and then passed through feed-forward layers with a SiLU activation function.
+<br><br>
+Adding in this species conditioning improved our validation loss slightly. However, there may be better ways to
+implement the class conditioning at strategic locations throughout the network to ensure that it actively maximizes
+the influence on the generated timestep.
+
+<h2>Experiments</h2>
+We trained the model for 150 epochs on 2,155 5 second audio clips at a 16 kHz sampling rate.
+<br>
+
+<h3>Generated Audio Samples</h3>
+<table>
+  <thead>
+    <tr>
+      <th align="middle">Unconditional Generation (no prompt)</th>
+      <th align="middle">Conditional Generation (1 sec prompt)</th>
+    </tr>
+  </thead>
+
+   <tbody>
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_1.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_1.wav" type="audio/wav"></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_2.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_2.wav" type="audio/wav"></audio></td>
+    </tr>
+
+    <tr>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/unconditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
+      <td><audio controls style="width: 250px; height: 50px"><source src="/files/audio/bird_sound_synthesis/conditional_qautoaudio_sashimi_len_5.00s_gen_3.wav" type="audio/wav"></audio></td>
+    </tr>
+
+  </tbody>
+</table>
+
 

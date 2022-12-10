@@ -10,7 +10,7 @@ redirect_from:
 
 Welcome! I am a graduate student at Northwestern University, IL 
 pursuing my master's degree in Artificial Intelligence. 
-My research interests include AI + speech and music synthesis, audio denoising and source separation. I am also part of the 
+My research interests include AI + controllable audio and music synthesis and audio denoising. I am also part of the 
 [Interactive Audio Lab](https://interactiveaudiolab.github.io/) at Northwestern
 headed by Professor Bryan Pardo.
 

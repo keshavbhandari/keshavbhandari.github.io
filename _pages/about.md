@@ -12,7 +12,7 @@ Welcome! I am a graduate student at Northwestern University, IL
 pursuing my master's degree in Artificial Intelligence. 
 My research interests include AI + controllable audio and music synthesis and audio denoising. I am also part of the 
 [Interactive Audio Lab](https://interactiveaudiolab.github.io/) at Northwestern
-headed by Professor Bryan Pardo.
+headed by Professor [Bryan Pardo](https://bryan-pardo.github.io/).
 
 Prior to Northwestern University, I was senior data scientist at Epsilon, India.
 My work here was in the ML product engineering team and I was responsible for building and deploying

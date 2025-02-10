@@ -125,6 +125,23 @@
             margin: 5px 0;
         }
 
+        .responsive-video {
+            width: 100%;
+            max-width: 1284px; /* Ensures it doesn’t stretch too wide */
+            height: auto; /* Maintains aspect ratio */
+            display: block;
+            margin: 10px auto;
+            background-color: black; /* Helps with smoother loading */
+        }
+
+        /* Ensure video scales correctly on small screens */
+        @media (max-width: 768px) {
+            .responsive-video {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
         midi-visualizer {
             border: 2px solid #426AA0;
             border-radius: 8px;
@@ -154,24 +171,7 @@
             fill: #ff0000;
         }
     </style>
-<!-- <script>
-    function showTab(index) {
-        const tabs = document.querySelectorAll('.tab');
-        const contents = document.querySelectorAll('.tab-content');
-        
-        tabs.forEach((tab, i) => {
-            tab.classList.toggle('active', i === index);
-            contents[i].classList.toggle('active', i === index);
-        });
-        
-        // Force MIDI visualizer refresh
-        const midiPlayers = document.querySelectorAll('midi-player');
-        midiPlayers[index].setAttribute('autoplay', '');
-        setTimeout(() => {
-            midiPlayers[index].removeAttribute('autoplay');
-        }, 100);
-    }
-</script> -->
+
 </head>
 <body>
     <div class="container">
@@ -187,7 +187,7 @@
         <p>Deep learning has enabled remarkable advances in style transfer across various domains, offering new possibilities for creative content generation. However, in the realm of symbolic music, generating controllable and expressive performance-level style transfers for complete musical works remains challenging due to limited datasets, especially for genres such as jazz, and the lack of unified models that can handle multiple music generation tasks. This paper presents ImprovNet, a transformer-based architecture that generates expressive and controllable musical improvisations through a self-supervised corruption-refinement training strategy. ImprovNet unifies multiple capabilities within a single model: it can perform cross-genre and intra-genre improvisations, harmonize melodies with genre-specific styles, and execute short prompt continuation and infilling tasks. The model's iterative generation framework allows users to control the degree of style transfer and structural similarity to the original composition. Objective and subjective evaluations demonstrate ImprovNet's effectiveness in generating musically coherent improvisations while maintaining structural relationships with the original pieces. The model outperforms Anticipatory Music Transformer in short continuation and infilling tasks and successfully achieves recognizable genre conversion, with 79\% of participants correctly identifying jazz-style improvisations.</p>
 
         <p>
-            <a href="URL_TO_PAPER" target="_blank">Read the full paper</a> | 
+            <a href="https://www.arxiv.org/abs/2502.04522" target="_blank">Read the full paper</a> | 
             <a href="https://github.com/keshavbhandari/improvnet" target="_blank">View on GitHub</a>
         </p>
 
@@ -198,7 +198,11 @@
 
         <p>In this video, we showcase a cross-genre improvisation of Debussy’s Clair de Lune (Classical → Jazz). As the MIDI plays, the on-screen keyboard visualizes the performance, while the chord identifier in the top right highlights the harmony.</p>
 
-        <video controls>
+        <!-- <video controls>
+            <source src="/files/audio/improvnet/Video/Debussy_Generated_Compressed.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video> -->
+        <video class="responsive-video" controls>
             <source src="/files/audio/improvnet/Video/Debussy_Generated_Compressed.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>

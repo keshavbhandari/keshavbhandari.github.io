@@ -82,10 +82,15 @@
 
         .affiliations {
             text-align: center;
-        }
-        .affiliations ul {
-            list-style: none;
+            list-style-type: none;
             padding: 0;
+            margin: 0;
+        }
+
+        .affiliations li {
+            text-align: center;
+            display: block;
+            margin: 5px 0;
         }
 
         midi-visualizer {
@@ -126,6 +131,13 @@
             tab.classList.toggle('active', i === index);
             contents[i].classList.toggle('active', i === index);
         });
+        
+        // Force MIDI visualizer refresh
+        const midiPlayers = document.querySelectorAll('midi-player');
+        midiPlayers[index].setAttribute('autoplay', '');
+        setTimeout(() => {
+            midiPlayers[index].removeAttribute('autoplay');
+        }, 100);
     }
 </script>
 </head>

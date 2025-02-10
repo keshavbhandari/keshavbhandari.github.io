@@ -65,6 +65,38 @@
             display: block;
         }
 
+        .anchor-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+            margin-bottom: -1px;
+        }
+
+        .anchor-container a {
+            color: #606c71;
+            display: block;
+            padding: 1rem 1.5rem;
+            margin-bottom: -1px;
+            border: 1px solid transparent;
+            border-radius: 10px 10px 0 0;
+            text-decoration: none;
+            border-color: #e0e0e0;
+            background-color: #fefefe;
+        }
+
+        .anchor-container a.selected {
+            background: #426AA0;
+            color: #fefefe;
+            font-weight: bold;
+        }
+
+        .anchor-container a:hover {
+            background: #426AA0;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+
         .table-container {
             overflow-x: auto;
             max-width: 100%;

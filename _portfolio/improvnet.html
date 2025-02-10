@@ -80,6 +80,14 @@
             padding: 10px;
         }
 
+        .affiliations {
+            text-align: center;
+        }
+        .affiliations ul {
+            list-style: none;
+            padding: 0;
+        }
+
         midi-visualizer {
             border: 2px solid #426AA0;
             border-radius: 8px;
@@ -125,8 +133,8 @@
     <div class="container">
         <h1>ImprovNet: Generating Controllable Musical Improvisations with Iterative Corruption Refinement</h1>
         <h3>Authors: Keshav Bhandari<sup>1</sup>, Sungkyun Chang<sup>1</sup>, Tongyu Lu<sup>2</sup>, Fareza R. Enus<sup>1</sup>, Louis B. Bradshaw<sup>1</sup>, Dorien Herremans<sup>2</sup>, Simon Colton<sup>1</sup></h3>
-        <h3>Affiliations:</h3>
-        <ul>
+        <h3 class="affiliations">Affiliations:</h3>
+        <ul class="affiliations">
             <li><sup>1</sup> Queen Mary University of London, UK</li>
             <li><sup>2</sup> Singapore University of Technology and Design, Singapore</li>
         </ul>
@@ -282,15 +290,15 @@
             <div class="tab" onclick="showTab(2)">ImprovNet</div>
         </div>
         <div class="tab-content active">
-            <midi-player src="Infilling/Example_1/original.mid" sound-font visualizer="#visualizer1"></midi-player>
+            <midi-player src="/files/audio/improvnet/Infilling/Example_1/original.mid" sound-font visualizer="#visualizer1"></midi-player>
             <midi-visualizer id="visualizer1" type="piano-roll"></midi-visualizer>
         </div>
         <div class="tab-content">
-            <midi-player src="Infilling/Example_1/amt.mid" sound-font visualizer="#visualizer2"></midi-player>
+            <midi-player src="/files/audio/improvnet/Infilling/Example_1/amt.mid" sound-font visualizer="#visualizer2"></midi-player>
             <midi-visualizer id="visualizer2" type="piano-roll"></midi-visualizer>
         </div>
         <div class="tab-content">
-            <midi-player src="Infilling/Example_1/improvnet.mid" sound-font visualizer="#visualizer3"></midi-player>
+            <midi-player src="/files/audio/improvnet/Infilling/Example_1/improvnet.mid" sound-font visualizer="#visualizer3"></midi-player>
             <midi-visualizer id="visualizer3" type="piano-roll"></midi-visualizer>
         </div>
 

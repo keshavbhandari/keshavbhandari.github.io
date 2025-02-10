@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif; /* Use a modern font */
-            background-color: #f8f9fa; /* Light background */
-            color: #333; /* Soft black text */
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -18,382 +18,346 @@
         h1, h2, h3 {
             color: #2c3e50;
             font-weight: 600;
-        }
-
-        h2 {
             text-align: center;
-            margin-bottom: 1rem;
         }
 
         p {
-            font-size: 16px;
+            font-size: 1rem;
             color: #555;
+            max-width: 90%;
+            margin: auto;
         }
 
-        midi-player {
-            width: 80%;
+        .container {
+            max-width: 90%;
+            margin: auto;
+        }
+
+        video, audio, midi-player, midi-visualizer {
+            width: 100%;
             max-width: 800px;
-            margin-left: 5cm;
+            display: block;
+            margin: 10px auto;
         }
 
-        /* Add this new CSS rule for the visualizer border */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #f1f1f1;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #e6e6e6;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .tab:hover, .tab.active {
+            background-color: #ffffff;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid black;
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
         midi-visualizer {
             border: 2px solid #426AA0;
             border-radius: 8px;
             padding: 10px;
             margin-top: 10px;
             width: 100%;
-            /* height: 200px; */
             max-width: 1300px;
-            margin-left: 5cm;
-            display: block; 
+            display: block;
             margin-bottom: 20px;
         }
 
-        /* Add this to force visualizers to load MIDI data */
         midi-visualizer[src] {
             display: block !important;
             visibility: visible !important;
         }
 
-        .tabs {
-        display: flex;
-        cursor: pointer;
-        margin-bottom: 20px;
-        background-color: #f1f1f1;
-        border-bottom: 2px solid #ddd;
-        }
-        .tab {
-        flex: 1;
-        padding: 10px 20px;
-        text-align: center;
-        background-color: #e6e6e6;
-        border: 1px solid #ddd;
-        border-bottom: none;
-        }
-        .tab:hover {
-        background-color: #d6d6d6;
-        }
-        .tab.active {
-        background-color: #ffffff;
-        font-weight: bold;
-        }
-        .tab-content {
-        display: none;
-        }
-        .tab-content.active {
-        display: block;
-        }
-
-        .anchor-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 1em;
-            margin-bottom: -1px;
-        }
-  
-        .anchor-container a {
-            color: #606c71;
-            display: block;
-            padding: 1rem 1.5rem;
-            margin-bottom: -1px;
-            border: 1px solid transparent;
-            border-radius: 10px 10px 0 0;
-            text-decoration: none;
-            border-color: #e0e0e0;
-            background-color: #fefefe;
-        }
-        
-        .anchor-container a.selected {
-            background: #426AA0;
-            color: #fefefe;
-            font-weight: bold;
-        }
-        
-        .anchor-container a:hover {
-            background: #426AA0;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
         midi-visualizer svg rect.note[data-program="0"] {
-        fill: rgb(23, 8, 242);
-        /* stroke: #0487fa; */
+            fill: rgb(23, 8, 242);
         }
-        
         midi-visualizer svg rect.note[data-program="1"] {
-        fill: rgb(7, 252, 7);
-        /* stroke: #03fabc; */
+            fill: rgb(7, 252, 7);
         }
-
         midi-visualizer svg rect.note.active {
-        /* opacity: 0.9; */
-        stroke: #fd0202;
+            stroke: #fd0202;
         }
-
         midi-visualizer svg rect.note.highlighted {
             fill: #ff0000;
-        } */
-
+        }
     </style>
 
 </head>
 <body>
-    <h1 style="margin-left: 2.5cm; margin-right: 2.5cm;">ImprovNet: Generating Controllable Musical Improvisations with Iterative Corruption Refinement</h1>
-    <h3 style="margin-left: 5cm; margin-right: 2.5cm;">Authors: Keshav Bhandari<sup>1</sup>, Sungkyun Chang<sup>1</sup>, Tongyu Lu<sup>2</sup>, Fareza R. Enus<sup>1</sup>, Louis B. Bradshaw<sup>1</sup>, Dorien Herremans<sup>2</sup>, Simon Colton<sup>1</sup></h3>
-    <h3 style="margin-left: 5cm; margin-right: 5cm;">Affiliations:</h3>
-    <ul style="margin-left: 5cm; margin-right: 5cm;">
-        <li><sup>1</sup> Queen Mary University of London, UK</li>
-        <li><sup>2</sup> Singapore University of Technology and Design, Singapore</li>
-    </ul>
+    <div class="container">
+        <h1>ImprovNet: Generating Controllable Musical Improvisations with Iterative Corruption Refinement</h1>
+        <h3>Authors: Keshav Bhandari<sup>1</sup>, Sungkyun Chang<sup>1</sup>, Tongyu Lu<sup>2</sup>, Fareza R. Enus<sup>1</sup>, Louis B. Bradshaw<sup>1</sup>, Dorien Herremans<sup>2</sup>, Simon Colton<sup>1</sup></h3>
+        <h3>Affiliations:</h3>
+        <ul>
+            <li><sup>1</sup> Queen Mary University of London, UK</li>
+            <li><sup>2</sup> Singapore University of Technology and Design, Singapore</li>
+        </ul>
 
-    <p style="margin-left: 5cm;"><strong>Abstract</strong></p>
-    <p style="margin-left: 5cm; margin-right: 5cm;">Deep learning has enabled remarkable advances in style transfer across various domains, offering new possibilities for creative content generation. However, in the realm of symbolic music, generating controllable and expressive performance-level style transfers for complete musical works remains challenging due to limited datasets, especially for genres such as jazz, and the lack of unified models that can handle multiple music generation tasks. This paper presents ImprovNet, a transformer-based architecture that generates expressive and controllable musical improvisations through a self-supervised corruption-refinement training strategy. ImprovNet unifies multiple capabilities within a single model: it can perform cross-genre and intra-genre improvisations, harmonize melodies with genre-specific styles, and execute short prompt continuation and infilling tasks. The model's iterative generation framework allows users to control the degree of style transfer and structural similarity to the original composition. Objective and subjective evaluations demonstrate ImprovNet's effectiveness in generating musically coherent improvisations while maintaining structural relationships with the original pieces. The model outperforms Anticipatory Music Transformer in short continuation and infilling tasks and successfully achieves recognizable genre conversion, with 79\% of participants correctly identifying jazz-style improvisations.</p>
+        <p><strong>Abstract</strong></p>
+        <p>Deep learning has enabled remarkable advances in style transfer across various domains, offering new possibilities for creative content generation. However, in the realm of symbolic music, generating controllable and expressive performance-level style transfers for complete musical works remains challenging due to limited datasets, especially for genres such as jazz, and the lack of unified models that can handle multiple music generation tasks. This paper presents ImprovNet, a transformer-based architecture that generates expressive and controllable musical improvisations through a self-supervised corruption-refinement training strategy. ImprovNet unifies multiple capabilities within a single model: it can perform cross-genre and intra-genre improvisations, harmonize melodies with genre-specific styles, and execute short prompt continuation and infilling tasks. The model's iterative generation framework allows users to control the degree of style transfer and structural similarity to the original composition. Objective and subjective evaluations demonstrate ImprovNet's effectiveness in generating musically coherent improvisations while maintaining structural relationships with the original pieces. The model outperforms Anticipatory Music Transformer in short continuation and infilling tasks and successfully achieves recognizable genre conversion, with 79\% of participants correctly identifying jazz-style improvisations.</p>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">
-        <a href="URL_TO_PAPER" target="_blank">Read the full paper</a> | 
-        <a href="https://github.com/keshavbhandari/improvnet" target="_blank">View on GitHub</a>
-    </p>
+        <p>
+            <a href="URL_TO_PAPER" target="_blank">Read the full paper</a> | 
+            <a href="https://github.com/keshavbhandari/improvnet" target="_blank">View on GitHub</a>
+        </p>
 
-    <div style="margin-left: 5cm;">
         <h2>Expressive Style Aware Improvisations</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">Musical improvisation is a process of generating music that introduces meaningful variations to a given piece, either by adopting a different style or retaining the original style. The goal of improvisation is to explore new creative expressions while maintaining a recognizable connection to the original content. This involves modifying elements such as melody, harmony, and rhythm to reflect either the original genre or a target genre, depending on the context and user preferences.</p>
-    <br />
+        <p>Musical improvisation is a process of generating music that introduces meaningful variations to a given piece, either by adopting a different style or retaining the original style. The goal of improvisation is to explore new creative expressions while maintaining a recognizable connection to the original content. This involves modifying elements such as melody, harmony, and rhythm to reflect either the original genre or a target genre, depending on the context and user preferences.</p>
+        <br />
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">In this video, we showcase a cross-genre improvisation of Debussy’s Clair de Lune (Classical → Jazz). As the MIDI plays, the on-screen keyboard visualizes the performance, while the chord identifier in the top right highlights the harmony.</p>
-    <div style="margin-left: 5cm; margin-right: 5cm;">
-        <video width="1284" height="188" controls>
+        <p>In this video, we showcase a cross-genre improvisation of Debussy’s Clair de Lune (Classical → Jazz). As the MIDI plays, the on-screen keyboard visualizes the performance, while the chord identifier in the top right highlights the harmony.</p>
+
+        <video controls>
             <source src="/files/audio/improvnet/Video/Debussy_Generated_Compressed.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
-        <!-- <video width="512" height="384" controls>
-            <source src="Ground_Truth_Comparison/danmark1_YY.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video> -->
-    </div>
+        <br />
 
-    <br />
+        <p>In this section, we present examples of expressive style-aware improvisations generated by ImprovNet. The model can perform cross-genre improvisations, transforming classical music into jazz styled improvisations, as well as intra-genre improvisations, where the style remains consistent with the original genre. The generated improvisations exhibit diverse musical expressions while preserving the structural characteristics of the original compositions.</p>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th style="border: 1px solid black; text-align: center;">Original Classical Example</th>
+                    <th style="border: 1px solid black; text-align: center;">Cross-Genre Improvisation (Classical -> Jazz)</th>
+                    <th style="border: 1px solid black; text-align: center;">Intra-Genre Improvisation (Classical -> Classical)</th>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/original_1_6.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/generated_1_6_B_2.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/generated_1_6_A.mp3" controls ></audio></td>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/original_1_5.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/generated_1_5_B.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/generated_1_5_A.mp3" controls ></audio></td>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/original_1_4.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/generated_1_4_B.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/generated_1_4_B.mp3" controls ></audio></td>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/original_1_2.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/generated_1_2_B.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/generated_1_2_A.mp3" controls ></audio></td>
+                </tr>
+            </table>
+        </div>    
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">In this section, we present examples of expressive style-aware improvisations generated by ImprovNet. The model can perform cross-genre improvisations, transforming classical music into jazz styled improvisations, as well as intra-genre improvisations, where the style remains consistent with the original genre. The generated improvisations exhibit diverse musical expressions while preserving the structural characteristics of the original compositions.</p>
-    
-    <table style="margin-left: 5cm !important; width: 80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
-        <tr>
-            <th style="border: 1px solid black; text-align: center;">Original Classical Example</th>
-            <th style="border: 1px solid black; text-align: center;">Cross-Genre Improvisation (Classical -> Jazz)</th>
-            <th style="border: 1px solid black; text-align: center;">Intra-Genre Improvisation (Classical -> Classical)</th>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/original_1_6.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/generated_1_6_B_2.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_3/generated_1_6_A.mp3" controls ></audio></td>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/original_1_5.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/generated_1_5_B.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_1/generated_1_5_A.mp3" controls ></audio></td>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/original_1_4.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/generated_1_4_B.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_2/generated_1_4_B.mp3" controls ></audio></td>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/original_1_2.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/generated_1_2_B.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Improvisation/Example_4/generated_1_2_A.mp3" controls ></audio></td>
-        </tr>
-    </table>    
 
-    <div style="margin-left: 5cm;">
         <h2>Expressive Jazz Style Intra-Genre Improvisations</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">In this section, we present examples of expressive jazz style intra-genre improvisations generated by ImprovNet. The model can generate jazz-style improvisations that maintain the original genre's characteristics while introducing expressive variations. The generated improvisations exhibit diverse musical expressions while preserving the stylistic characteristics of the input compositions.</p>
-    
-    <table style="margin-left: 5cm !important; width: 80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
-        <tr>
-            <th style="border: 1px solid black; text-align: center;">Original Jazz Example</th>
-            <th style="border: 1px solid black; text-align: center;">Intra-Genre Improvisation (Jazz -> Jazz)</th>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_1/Sample_2_1.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_1/Sample_2_1_A.mp3" controls ></audio></td>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_2/original_2_2.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_2/generated_2_2_A.mp3" controls ></audio></td>
-        </tr>
-        <tr>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_3/original_2_3.mp3" controls ></audio></td>
-            <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_3/generated_2_3_A.mp3" controls ></audio></td>
-        </tr>
-    </table>
+        <p>In this section, we present examples of expressive jazz style intra-genre improvisations generated by ImprovNet. The model can generate jazz-style improvisations that maintain the original genre's characteristics while introducing expressive variations. The generated improvisations exhibit diverse musical expressions while preserving the stylistic characteristics of the input compositions.</p>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th style="border: 1px solid black; text-align: center;">Original Jazz Example</th>
+                    <th style="border: 1px solid black; text-align: center;">Intra-Genre Improvisation (Jazz -> Jazz)</th>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_1/Sample_2_1.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_1/Sample_2_1_A.mp3" controls ></audio></td>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_2/original_2_2.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_2/generated_2_2_A.mp3" controls ></audio></td>
+                </tr>
+                <tr>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_3/original_2_3.mp3" controls ></audio></td>
+                    <td><audio src="/files/audio/improvnet/Jazz_Intra_Genre_Improvisation/Example_3/generated_2_3_A.mp3" controls ></audio></td>
+                </tr>
+            </table>
+        </div>
 
-
-    <div style="margin-left: 5cm;">
         <h2>Expressive Style Aware Harmonization</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">ImprovNet can harmonize monophonic melodies with genre-specific styles, generating expressive and stylistically coherent harmonizations. In this section, we present examples of expressive jazz and classical style harmonizations generated by ImprovNet using the logit constraints and Skyline corruption function.</p>
-    
-    <table style="margin-left: 5cm !important; width: 80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
-        <tr>
-            <th style="width: 30%; border: 1px solid black; text-align: center;">Monophonic Melody Example</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">Jazz Harmonization</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">Classical Harmonization</th>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Mono_Sample_3_1.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Sample_3_1_B.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Sample_3_1_A.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/Mono_original_3_2.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/generated_3_2_B.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/generated_3_2_A.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/Mono_original_3_3.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/generated_3_3_B.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/generated_3_3_A.mp3" controls></audio></td>
-        </tr>
-    </table>
+        <p>ImprovNet can harmonize monophonic melodies with genre-specific styles, generating expressive and stylistically coherent harmonizations. In this section, we present examples of expressive jazz and classical style harmonizations generated by ImprovNet using the logit constraints and Skyline corruption function.</p>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th style="width: 30%; border: 1px solid black; text-align: center;">Monophonic Melody Example</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">Jazz Harmonization</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">Classical Harmonization</th>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Mono_Sample_3_1.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Sample_3_1_B.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_1/Sample_3_1_A.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/Mono_original_3_2.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/generated_3_2_B.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_2/generated_3_2_A.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/Mono_original_3_3.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/generated_3_3_B.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Harmonization/Example_3/generated_3_3_A.mp3" controls></audio></td>
+                </tr>
+            </table>
+        </div>
 
-
-    <div style="margin-left: 5cm;">
         <h2>Short Prompt Continuation</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">ImprovNet can generate short continuations (5-20 seconds) based on prompts. In this section, we present examples of short prompt continuations generated by ImprovNet and Anticipatory Music Transformer (AMT).</p>
-    
-    <table style="margin-left: 5cm !important; width: 80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
-        <tr>
-            <th style="width: 30%; border: 1px solid black; text-align: center;">Prompt</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">Anticipatory Music Transformer</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">ImprovNet</th>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/original_prompt.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/Amt_Generated_5_1.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/Generated_5_1.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/original_prompt.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/amt_continuation_5_2.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/generated_5_2.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/original_prompt.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/amt_continuation_5_3.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/generated_5_3.mp3" controls></audio></td>
-        </tr>
-    </table>
-    
-    <div style="margin-left: 5cm;">
+        <p>ImprovNet can generate short continuations (5-20 seconds) based on prompts. In this section, we present examples of short prompt continuations generated by ImprovNet and Anticipatory Music Transformer (AMT).</p>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th style="width: 30%; border: 1px solid black; text-align: center;">Prompt</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">Anticipatory Music Transformer</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">ImprovNet</th>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/original_prompt.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/Amt_Generated_5_1.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_1/Generated_5_1.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/original_prompt.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/amt_continuation_5_2.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_2/generated_5_2.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/original_prompt.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/amt_continuation_5_3.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Short_Prompt_Continuation/Example_3/generated_5_3.mp3" controls></audio></td>
+                </tr>
+            </table>
+        </div>
+        
         <h2>Short Infilling</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">ImprovNet can perform short infilling (5-20 seconds) tasks when the left and right segments are provided. In this section, we present examples of short infillings generated by ImprovNet and Anticipatory Music Transformer (AMT). The left and right context segments are 20 seconds long and both models generate 20 seconds in the middle.</p>
+        <p>ImprovNet can perform short infilling (5-20 seconds) tasks when the left and right segments are provided. In this section, we present examples of short infillings generated by ImprovNet and Anticipatory Music Transformer (AMT). The left and right context segments are 20 seconds long and both models generate 20 seconds in the middle.</p>
 
-    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+        <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
 
-    <div class="example-tabbed">
-        <div class="anchor-container">
-          <a class="selected" onclick="showTab(0)">Original Composition</a>
-          <a onclick="showTab(1)">Anticipatory Music Transformer</a>
-          <a onclick="showTab(2)">ImprovNet</a>
+        <div class="example-tabbed">
+            <div class="anchor-container">
+            <a class="selected" onclick="showTab(0)">Original Composition</a>
+            <a onclick="showTab(1)">Anticipatory Music Transformer</a>
+            <a onclick="showTab(2)">ImprovNet</a>
+            </div>
+
+        <!-- Modify your visualizer elements to include src attributes -->
+        <div id="tab-contents">
+            <!-- Tab 1 -->
+            <div class="tab-content active">
+                <midi-player
+                src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid"
+                sound-font
+                visualizer="#myVisualizer1"
+                loop
+                autoplay
+                style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
+                </midi-player>
+                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid" 
+                            type="piano-roll" 
+                            id="myVisualizer1"></midi-visualizer>
+            </div>
+
+            <!-- Tab 2 -->
+            <div class="tab-content">
+                <midi-player
+                src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
+                sound-font
+                visualizer="#myVisualizer2"
+                >
+                </midi-player>
+                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
+                            type="piano-roll" 
+                            id="myVisualizer2"></midi-visualizer>
+            </div>
+
+            <!-- Tab 3 -->
+            <div class="tab-content">
+                <midi-player
+                src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
+                sound-font
+                visualizer="#myVisualizer3"
+                style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
+                </midi-player>
+                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
+                            type="piano-roll" 
+                            id="myVisualizer3"></midi-visualizer>
+            </div>
         </div>
 
-    <!-- Modify your visualizer elements to include src attributes -->
-    <div id="tab-contents">
-        <!-- Tab 1 -->
-        <div class="tab-content active">
-            <midi-player
-              src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid"
-              sound-font
-              visualizer="#myVisualizer1"
-              loop
-              autoplay
-              style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
-            </midi-player>
-            <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid" 
-                        type="piano-roll" 
-                        id="myVisualizer1"></midi-visualizer>
-        </div>
+        <script>
+            function showTab(index) {
+            const tabs = document.querySelectorAll('.anchor-container a');
+            const contents = document.querySelectorAll('.tab-content');
+        
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('selected', i === index);
+                contents[i].classList.toggle('active', i === index);
+            });
+            }
+        </script>      
 
-        <!-- Tab 2 -->
-        <div class="tab-content">
-            <midi-player
-              src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
-              sound-font
-              visualizer="#myVisualizer2"
-            >
-            </midi-player>
-            <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
-                        type="piano-roll" 
-                        id="myVisualizer2"></midi-visualizer>
-        </div>
-
-        <!-- Tab 3 -->
-        <div class="tab-content">
-            <midi-player
-              src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
-              sound-font
-              visualizer="#myVisualizer3"
-              style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
-            </midi-player>
-            <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
-                        type="piano-roll" 
-                        id="myVisualizer3"></midi-visualizer>
-        </div>
-    </div>
-
-      <script>
-        function showTab(index) {
-          const tabs = document.querySelectorAll('.anchor-container a');
-          const contents = document.querySelectorAll('.tab-content');
-      
-          tabs.forEach((tab, i) => {
-            tab.classList.toggle('selected', i === index);
-            contents[i].classList.toggle('active', i === index);
-          });
-        }
-      </script>      
-
-    <div style="margin-left: 5cm;">
         <h2>Bonus - Reharmonization</h2>
-    </div>
 
-    <p style="margin-left: 5cm; margin-right: 5cm;">ImprovNet is also capable of reharmonizing an existing composition with genre-specific styles. In this section, we present examples of reharmonizations generated by ImprovNet using the logit constraints and Skyline corruption function.</p>
-    
-    <table style="margin-left: 5cm !important; width: 80%; border-collapse: collapse; border: 2px solid black; text-align: center;">
-        <tr>
-            <th style="width: 30%; border: 1px solid black; text-align: center;">Original</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">Jazz Reharmonization</th>
-            <th style="width: 35%; border: 1px solid black; text-align: center;">Classical Reharmonization</th>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/original_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/jazz_generated_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/classical_generated_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/original_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/jazz_generated_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/classical_generated_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
-        </tr>
-        <tr style="border-bottom: 1px solid black; text-align: center;">
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/original_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/jazz_generated_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
-            <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/classical_generated_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
-        </tr>
-    </table>
+        <p>ImprovNet is also capable of reharmonizing an existing composition with genre-specific styles. In this section, we present examples of reharmonizations generated by ImprovNet using the logit constraints and Skyline corruption function.</p>
+        
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th style="width: 30%; border: 1px solid black; text-align: center;">Original</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">Jazz Reharmonization</th>
+                    <th style="width: 35%; border: 1px solid black; text-align: center;">Classical Reharmonization</th>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/original_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/jazz_generated_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_2/classical_generated_Michael J. Smith - Agnus Dei.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/original_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/jazz_generated_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_3/classical_generated_Nacio Herb Brown, Arthur Freed - Alone.mp3" controls></audio></td>
+                </tr>
+                <tr style="border-bottom: 1px solid black; text-align: center;">
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/original_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/jazz_generated_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
+                    <td><audio src="/files/audio/improvnet/Style_Aware_Reharmonization/Example_1/classical_generated_Oh_Johnny,_oh_Johnny,_Oh!.mp3" controls></audio></td>
+                </tr>
+            </table>
+        </div>
 
-    <br /><br /><br /><br />
-    <div style="margin-left: 5cm;">
+        <br /><br /><br /><br />
         <h3>Thanks for listening!! 🎹</h3>
     </div>
     

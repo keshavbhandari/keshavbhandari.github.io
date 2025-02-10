@@ -109,7 +109,17 @@
             fill: #ff0000;
         }
     </style>
-
+<script>
+    function showTab(index) {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach((tab, i) => {
+            tab.classList.toggle('active', i === index);
+            contents[i].classList.toggle('active', i === index);
+        });
+    }
+</script>
 </head>
 <body>
     <div class="container">
@@ -265,68 +275,29 @@
 
         <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
 
-        <div class="example-tabbed">
-            <div class="anchor-container">
-            <a class="selected" onclick="showTab(0)">Original Composition</a>
-            <a onclick="showTab(1)">Anticipatory Music Transformer</a>
-            <a onclick="showTab(2)">ImprovNet</a>
+        <div class="container">
+            <h1>ImprovNet: Generating Controllable Musical Improvisations</h1>
+            <p><strong>Abstract</strong></p>
+            <p>Deep learning has enabled remarkable advances in style transfer across various domains...</p>
+    
+            <h2>Short Infilling</h2>
+            <div class="tabs">
+                <div class="tab active" onclick="showTab(0)">Original Composition</div>
+                <div class="tab" onclick="showTab(1)">Anticipatory Music Transformer</div>
+                <div class="tab" onclick="showTab(2)">ImprovNet</div>
             </div>
-
-        <!-- Modify your visualizer elements to include src attributes -->
-        <div id="tab-contents">
-            <!-- Tab 1 -->
             <div class="tab-content active">
-                <midi-player
-                src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid"
-                sound-font
-                visualizer="#myVisualizer1"
-                loop
-                autoplay
-                style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
-                </midi-player>
-                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/original_original_10_separated.mid" 
-                            type="piano-roll" 
-                            id="myVisualizer1"></midi-visualizer>
+                <midi-player src="Infilling/Example_1/original.mid" sound-font visualizer="#visualizer1"></midi-player>
+                <midi-visualizer id="visualizer1" type="piano-roll"></midi-visualizer>
             </div>
-
-            <!-- Tab 2 -->
             <div class="tab-content">
-                <midi-player
-                src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
-                sound-font
-                visualizer="#myVisualizer2"
-                >
-                </midi-player>
-                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/amt_inpainted_separated.mid"
-                            type="piano-roll" 
-                            id="myVisualizer2"></midi-visualizer>
+                <midi-player src="Infilling/Example_1/amt.mid" sound-font visualizer="#visualizer2"></midi-player>
+                <midi-visualizer id="visualizer2" type="piano-roll"></midi-visualizer>
             </div>
-
-            <!-- Tab 3 -->
             <div class="tab-content">
-                <midi-player
-                src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
-                sound-font
-                visualizer="#myVisualizer3"
-                style="--midi-player-background: #061ffb; --midi-player-border-radius: 8px;">
-                </midi-player>
-                <midi-visualizer src="/files/audio/improvnet/Infilling/Example_1/generated_original_10_separated.mid"
-                            type="piano-roll" 
-                            id="myVisualizer3"></midi-visualizer>
+                <midi-player src="Infilling/Example_1/improvnet.mid" sound-font visualizer="#visualizer3"></midi-player>
+                <midi-visualizer id="visualizer3" type="piano-roll"></midi-visualizer>
             </div>
-        </div>
-
-        <script>
-            function showTab(index) {
-            const tabs = document.querySelectorAll('.anchor-container a');
-            const contents = document.querySelectorAll('.tab-content');
-        
-            tabs.forEach((tab, i) => {
-                tab.classList.toggle('selected', i === index);
-                contents[i].classList.toggle('active', i === index);
-            });
-            }
-        </script>      
 
         <h2>Bonus - Reharmonization</h2>
 

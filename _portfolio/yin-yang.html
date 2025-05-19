@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <h1 style="margin-left: 5cm;">Yin-Yang: A Neuro-Symbolic Framework For Developing Motifs With Long-Term Structure And Controllability</h1>
+    <h1 style="margin-left: 5cm;">Yin-Yang: Developing Motifs With Long-Term Structure And Controllability</h1>
     <p style="margin-left: 5cm;"><strong>Abstract</strong></p>
     <p style="margin-left: 5cm; margin-right: 5cm;">Transformer models have made great strides in generating symbolic music with local coherence. Yet, controlling the development of motifs in a structured way with global form remains an open research area. One of the reasons for this challenge is due to the note-by-note autoregressive generation of such models which lack the ability to correct themselves after deviations from the motif. In addition, their structural performance on datasets with shorter durations has not been studied in the literature. In this study, we propose Yin-Yang, a neuro-symbolic framework consisting of a phrase generator, phrase refiner and phrase selector models for development of motifs with long-term structure and controllability. The phrase refiner is trained on a novel corruption-refinement strategy which allows it to produce melodic and rhythmic variations of the original motif at generation time, thereby rectifying deviations of the phrase generator. We also introduce a new objective evaluation metric for quantifying how smoothly the motif manifests itself within the piece. Subjective evaluation results show our model achieves better performance compared to state of the art transformer models while having the advantage of being controllable and semi-interpretable, paving the path for musical analysis.</p>
 
@@ -267,6 +267,22 @@
             Your browser does not support the video tag.
         </video>
     </div>
+
+    <div style="margin-left: 5cm;">
+        <h2>Bonus - Future Work!</h2>
+    </div>
+    <p style="margin-left: 5cm; margin-right: 5cm;">
+        We built an expressive harmonization model that takes in the generated melodies from the Yin-Yang framework and harmonizes them with controllable harmonic textures (down arpeggiated harmonic textures in this case). We also plan to extend this project by adding multiple instruments to harmonize the melodies.
+    <div style="margin-left: 5cm; margin-right: 5cm;">
+        <p><strong>Yin-Yang Generated Monophonic Melody:</strong></p>
+        <audio src="/files/audio/yinyang/Bonus/NLB075160_01.mp3" controls ></audio>
+    </div>
+    
+    <div style="margin-left: 5cm; margin-right: 5cm;">
+        <p><strong>Harmonized Melody (Down Arpeggiated Texture):</strong></p>
+        <audio src="/files/audio/yinyang/Bonus/down_arpeggiated_NLB075160_01_pop.mp3" controls ></audio>
+    </div>
+    <br>
 
     <br /><br />
     <div style="margin-left: 5cm;">

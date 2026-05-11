@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music Generation Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 48px 24px 36px;
+      text-align: center;
+    }
+    header .venue {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #426AA0;
+      margin-bottom: 14px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      max-width: 820px;
+      margin: 0 auto 20px;
+      line-height: 1.35;
+    }
+    header .authors {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 14px;
+    line-height: 1.7;
+    }
+    header .links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    header .links a {
+      display: inline-block;
+      padding: 7px 18px;
+      border: 1.5px solid #426AA0;
+      border-radius: 20px;
+      color: #426AA0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    header .links a:hover {
+      background: #426AA0;
+      color: #fff;
+    }
+
+    /* ── Sections ────────────────────────────────────────────── */
+    .section {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+    .section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #426AA0;
+    }
+    .abstract-box {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 28px 32px;
+      font-size: 0.97rem;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    /* ── Tab navigation ──────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      padding: 8px 20px;
+      border: 1.5px solid #426AA0;
+      border-radius: 20px;
+      background: #fff;
+      color: #426AA0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tab-btn:hover,
+    .tab-btn.active {
+      background: #426AA0;
+      color: #fff;
+    }
+
+    /* ── Demo panel / card ───────────────────────────────────── */
+    .demo-panel { display: none; }
+    .demo-panel.active { display: block; }
+
+    .demo-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .demo-card-header {
+      background: #f0f4fa;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    .demo-card-body {
+      padding: 24px;
+    }
+    .demo-card video {
+      width: 100%;
+      border-radius: 6px;
+      background: #000;
+      display: block;
+      max-height: 480px;
+    }
+    .demo-comment {
+      margin-top: 18px;
+      font-size: 0.93rem;
+      color: #555;
+      line-height: 1.75;
+    }
+    .demo-comment strong { color: #2c3e50; }
+
+    .demo-prompt {
+      background: #f5f5f5;
+      border-left: 4px solid #888;
+      padding: 0.75em 1em;
+      margin-bottom: 1.5em;
+      font-style: italic;
+    }
+
+    /* ── Showcase carousel ───────────────────────────────────── */
+    .showcase-carousel {
+      position: relative;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5em 4em;
+    }
+    .showcase-slide { display: none; }
+    .showcase-slide.active { display: block; }
+
+    .showcase-prompt {
+      background: #f0f0f0;
+      border-left: 4px solid #888;
+      padding: 0.75em 1em;
+      margin-bottom: 1.2em;
+      font-size: 0.93rem;
+      line-height: 1.6;
+      border-radius: 0 4px 4px 0;
+    }
+    .showcase-prompt strong {
+      display: block;
+      margin-bottom: 0.3em;
+    }
+    .showcase-carousel video {
+      width: 100%;
+      border-radius: 6px;
+      background: #000;
+    }
+    .showcase-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 2.4em;
+      height: 2.4em;
+      font-size: 1.1em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      z-index: 1;
+    }
+    .showcase-arrow:hover {
+      background: #e8e8e8;
+      border-color: #aaa;
+    }
+    .showcase-arrow:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    .showcase-arrow.prev { left: 0.6em; }
+    .showcase-arrow.next { right: 0.6em; }
+
+    .showcase-counter {
+      text-align: center;
+      margin-top: 1em;
+      font-size: 0.88rem;
+      color: #777;
+    }
+
+    /* ── LLM prompt collapsibles ─────────────────────────────── */
+    .llm-prompt-toggle {
+      width: 100%;
+      background: #f0f4fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 0.85em 1.2em;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 1em;
+      font-weight: 600;
+      color: #2c3e50;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+      margin-bottom: 4px;
+    }
+    .llm-prompt-toggle:hover { background: #e4ecf7; }
+    .llm-prompt-toggle .arrow {
+      font-style: normal;
+      font-size: 0.85em;
+      transition: transform 0.25s;
+    }
+    .llm-prompt-toggle.open .arrow { transform: rotate(180deg); }
+
+    .llm-prompt-body {
+      display: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 0 0 6px 6px;
+      background: #fafafa;
+      margin-bottom: 16px;
+    }
+    .llm-prompt-body.open { display: block; }
+
+    .llm-prompt-body pre {
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.88em;
+      line-height: 1.65;
+      color: #333;
+      padding: 1.2em 1.4em;
+      margin: 0;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.82rem;
+      color: #999;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 48px;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.4rem; }
+      .abstract-box { padding: 20px; }
+      .demo-card-body { padding: 16px; }
+      .showcase-carousel { padding: 1.5em 3em; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════════════════ -->
+<header>
+  <!-- <div class="venue">ISMIR 2026</div> -->
+  <h1>Text2Score: Generating Sheet Music From Textual Prompts</h1>
+  <div class="authors">
+    Keshav Bhandari<sup>1</sup>, 
+    Sungkyun Chang<sup>1</sup>, 
+    Abhinaba Roy<sup>2</sup>, 
+    Francesca Ronchini<sup>3</sup>,<br>
+    Emmanouil Benetos<sup>1</sup>, 
+    Dorien Herremans<sup>2</sup>, 
+    Simon Colton<sup>1</sup>
+  </div>
+  
+  <div class="authors" style="font-size:0.88rem; margin-top:-8px; line-height:1.6;">
+    <sup>1</sup> Queen Mary University of London, UK &nbsp;&nbsp;|&nbsp;&nbsp;
+    <sup>2</sup> Singapore University of Technology and Design, Singapore &nbsp;&nbsp;|&nbsp;&nbsp;
+    <sup>3</sup> Politecnico di Milano, Italy
+  </div>
+  
+  <div class="links">
+    <a href="#">Paper</a>
+    <a href="#">arXiv</a>
+    <a href="#">Code</a>
+  </div>
+  <div class="links"></div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ABSTRACT
+═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>Abstract</h2>
+  <div class="abstract-box">
+    <p>
+      Developing text-driven symbolic music generation models remains challenging due to the scarcity of aligned text-music datasets and the unreliability of automated captioning pipelines. We present Text2Score, a two-stage framework comprising a planning stage and an execution stage for generating sheet music from natural language prompts. By deriving supervision signals directly from symbolic XML data, we propose an alternative training paradigm that bypasses the need for noisy or scarce text-music pairs. In the planning stage, an LLM orchestrator translates a natural language prompt into a structured measure-wise plan defining musical attributes such as instruments, key, time signatures, and harmony. This plan is then consumed by a generative model in the execution stage to produce interleaved ABC notation conditioned on the plan's structural constraints. To assess output quality, we introduce a comprehensive evaluation framework covering playability, readability, instrument utilization, structural complexity, and prompt adherence, validated by a subjective test involving expert musicians. Text2Score consistently outperforms both a pure LLM-based agentic framework and two end-to-end baselines across all objective and subjective dimensions.
+    </p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     GENERATED SHEET MUSIC EXAMPLES
+═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>Generated Sheet-Music Examples</h2>
+  <p style="margin-bottom:16px; color:#555; font-size:0.93rem;">
+    Each prompt example shows the generated scores from Text2Score, ComposerX, MIDI-LLM, Text2Midi-InferAlign and MIDILM. Use the tabs to navigate between examples.
+  </p>
+  <div class="tab-bar" id="tab-bar"></div>
+  <div id="panels-container"></div>
+</div>
+
+<script>
+const GENERATIONS = [
+  {
+    label: 'Example 1',
+    prompt: 'Write a compact brass-and-woodwind chorale at around 66 BPM in 4/4, in Bb major. Keep the melody mostly in the first trumpet and first horn, with clarinets filling inner voices and tuba holding long bass notes. Form: four phrases that build to a strong final cadence.',
+    examples: [
+      { title: 'Example 1 — Text2Score (Ours)',       video: '/files/audio/text2score/10_108/108_Text2Score.mp4' },
+      { title: 'Example 1 — ComposerX',               video: '/files/audio/text2score/10_108/108_ComposerX.mp4' },
+      { title: 'Example 1 — Midi-LLM',                video: '/files/audio/text2score/10_108/108_MidiLLM.mp4' },
+      { title: 'Example 1 — Text2Midi-InferAlign',    video: '/files/audio/text2score/10_108/108_Infer_Align.mp4' },
+      { title: 'Example 1 — MidiLM',                  video: '/files/audio/text2score/10_108/108_MidiLM.mp4' },
+    ]
+  },
+  {
+    label: 'Example 2',
+    prompt: 'A melancholic solo flute melody settling back into D minor, composed as a slow 6/8 barcarolle at 54 BPM.',
+    examples: [
+      { title: 'Example 2 — Text2Score (Ours)',       video: '/files/audio/text2score/3_3/3_Text2Score.mp4' },
+      { title: 'Example 2 — ComposerX',               video: '/files/audio/text2score/3_3/3_ComposerX.mp4' },
+      { title: 'Example 2 — Midi-LLM',                video: '/files/audio/text2score/3_3/3_MidiLLM.mp4' },
+      { title: 'Example 2 — Text2Midi-InferAlign',    video: '/files/audio/text2score/3_3/3_Infer_Align.mp4' },
+      { title: 'Example 2 — MidiLM',                  video: '/files/audio/text2score/3_3/3_MidiLM.mp4' },
+    ]
+  },
+  {
+    label: 'Example 3',
+    prompt: 'Please write a bright, simple duet around 92 BPM in 3/4, in D major, for violin and piano. The violin should have a clear, singable melody while the piano keeps light chordal support with occasional gentle arpeggios. Form: A–B–A with an easy ending.',
+    examples: [
+      { title: 'Example 3 — Text2Score (Ours)',       video: '/files/audio/text2score/12_166/166_Text2Score.mp4' },
+      { title: 'Example 3 — ComposerX',               video: '/files/audio/text2score/12_166/166_ComposerX.mp4' },
+      { title: 'Example 3 — Midi-LLM',                video: '/files/audio/text2score/12_166/166_MidiLLM.mp4' },
+      { title: 'Example 3 — Text2Midi-InferAlign',    video: '/files/audio/text2score/12_166/166_Infer_Align.mp4' },
+      { title: 'Example 3 — MidiLM',                  video: '/files/audio/text2score/12_166/166_MidiLM.mp4' },
+    ]
+  },
+  {
+    label: 'Example 4',
+    prompt: 'A baroque-inspired suite for a string orchestra in G minor. The first movement is a slow 4/4 at 68 BPM. Focus on a strong contrapuntal texture between the first violins and the cellos. The violas should fill in the middle harmonies with steady eighth-note patterns. It needs to feel academic yet expressive, ending on a strong Picardy third.',
+    examples: [
+      { title: 'Example 4 — Text2Score (Ours)',       video: '/files/audio/text2score/13_18/18_Text2Score.mp4' },
+      { title: 'Example 4 — ComposerX',               video: '/files/audio/text2score/13_18/18_ComposerX.mp4' },
+      { title: 'Example 4 — Midi-LLM',                video: '/files/audio/text2score/13_18/18_MidiLLM.mp4' },
+      { title: 'Example 4 — Text2Midi-InferAlign',    video: '/files/audio/text2score/13_18/18_Infer_Align.mp4' },
+      { title: 'Example 4 — MidiLM',                  video: '/files/audio/text2score/13_18/18_MidiLM.mp4' },
+    ]
+  },
+  {
+    label: 'Example 5',
+    prompt: 'Woodwind trio (Flute, Oboe, Clarinet) playing a playful jig in 6/8. Use a bright G-major world at 116 BPM.',
+    examples: [
+      { title: 'Example 5 — Text2Score (Ours)',       video: '/files/audio/text2score/14_7/7_Text2Score.mp4' },
+      { title: 'Example 5 — ComposerX',               video: '/files/audio/text2score/14_7/7_ComposerX.mp4' },
+      { title: 'Example 5 — Midi-LLM',                video: '/files/audio/text2score/14_7/7_MidiLLM.mp4' },
+      { title: 'Example 5 — Text2Midi-InferAlign',    video: '/files/audio/text2score/14_7/7_Infer_Align.mp4' },
+      { title: 'Example 5 — MidiLM',                  video: '/files/audio/text2score/14_7/7_MidiLM.mp4' },
+    ]
+  },
+  {
+    label: 'Example 6',
+    prompt: 'Need a loopable game town theme around 100 BPM in 4/4, in C major. Use flute for the main melody, clarinet for a gentle counterline, and pizzicato strings for light pulse; add harp to sparkle at phrase ends. Keep the harmony simple and repeat-friendly: 8-bar A, 8-bar B, then back to A with a small tag for looping.',
+    examples: [
+      { title: 'Example 6 — Text2Score (Ours)',       video: '/files/audio/text2score/15_110/110_Text2Score.mp4' },
+      { title: 'Example 6 — ComposerX',               video: '/files/audio/text2score/15_110/110_ComposerX.mp4' },
+      { title: 'Example 6 — Midi-LLM',                video: '/files/audio/text2score/15_110/110_MidiLLM.mp4' },
+      { title: 'Example 6 — Text2Midi-InferAlign',    video: '/files/audio/text2score/15_110/110_Infer_Align.mp4' },
+      { title: 'Example 6 — MidiLM',                  video: '/files/audio/text2score/15_110/110_MidiLM.mp4' },
+    ]
+  },
+];
+
+function buildPromptBox(prompt) {
+  if (!prompt) return '';
+  return `<div class="demo-prompt"><strong>Prompt:</strong> ${prompt}</div>`;
+}
+
+function buildCard(ex) {
+  const commentHTML = ex.comment
+    ? `<div class="demo-comment"><strong>Commentary:</strong> ${ex.comment}</div>`
+    : '';
+  return `
+    <div class="demo-card">
+      <div class="demo-card-header">${ex.title}</div>
+      <div class="demo-card-body">
+        <video controls>
+          <source src="${ex.video}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        ${commentHTML}
+      </div>
+    </div>`;
+}
+
+(function render() {
+  const tabBar = document.getElementById('tab-bar');
+  const panels = document.getElementById('panels-container');
+
+  GENERATIONS.forEach((mod, i) => {
+    const id      = 'mod' + (i + 1);
+    const isFirst = i === 0;
+
+    const btn = document.createElement('button');
+    btn.className   = 'tab-btn' + (isFirst ? ' active' : '');
+    btn.textContent = mod.label;
+    btn.onclick     = function () { showTab(id, this); };
+    tabBar.appendChild(btn);
+
+    const panel = document.createElement('div');
+    panel.id        = id;
+    panel.className = 'demo-panel' + (isFirst ? ' active' : '');
+    panel.innerHTML = buildPromptBox(mod.prompt) + mod.examples.map(buildCard).join('');
+    panels.appendChild(panel);
+  });
+})();
+
+function showTab(id, btn) {
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TEXT2SCORE SHOWCASE  (carousel — Text2Score only)
+     ─────────────────────────────────────────────────────────
+     Edit the SHOWCASE array: each entry has a prompt + video path.
+═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>Text2Score Examples</h2>
+  <p style="margin-bottom:16px; color:#555; font-size:0.93rem;">
+    Additional examples generated by Text2Score. Use the arrows to browse through prompts and their corresponding outputs.
+  </p>
+
+  <div class="showcase-carousel" id="showcase-carousel">
+    <button class="showcase-arrow prev" onclick="showcaseMove(-1)" aria-label="Previous">&#8592;</button>
+    <button class="showcase-arrow next" onclick="showcaseMove(1)"  aria-label="Next">&#8594;</button>
+    <!-- slides injected by JS -->
+  </div>
+  <div class="showcase-counter" id="showcase-counter"></div>
+</div>
+
+<script>
+const SHOWCASE = [
+  {
+    prompt: 'Grand orchestral march in C major at 120 BPM. It needs a steady 4/4 pulse with bold brass and soaring strings.',
+    video:  '/files/audio/text2score/Example_15/4_Text2Score.mp4',
+  },
+  {
+    prompt: 'Please write a bright duet around 92 BPM in 3/4, in D major, for violin and piano. Violin has a clear melody and the piano supports with light chordal writing. Form: A–B–A, ending in D major.',
+    video:  '/files/audio/text2score/Example_16/235_Text2Score.mp4',
+  },
+  {
+    prompt: 'A playful woodwind octet in F major at a brisk 126 BPM. Use a 2/4 march meter with distinct sections for the bassoons and clarinets. The oboes should have the main theme, which is repeated by the flutes later. Keep the texture light and the articulations mostly staccato. It\'s meant to be a fun, academic-style exercise for students.',
+    video:  '/files/audio/text2score/Example_14/16_Text2Score.mp4',
+  },
+  {
+    prompt: 'Create a luminous choral-orchestral meditation around 58 BPM in 4/4, centered in D major. The SATB choir is wordless and mostly sustained, entering in layers: basses first, then tenors, altos, sopranos. Underneath, strings should hold slow-moving harmony while harp and celesta add quiet shimmer at phrase peaks. Include solo horn for a simple two-note motif that returns between choral phrases. Form: gradual build to one warm climax, then dissolve into a long final cadence.',
+    video:  '/files/audio/text2score/Example_17/116_Text2Score.mp4',
+  },
+  {
+    prompt: 'I\'m hoping for a bright chamber piece around 88 BPM in 3/4, in A minor—could it feel like a slow-turning waltz without being heavy? The clarinet should sing the main line, the piano keeps a gentle broken-chord bed, and the cello answers with a warm counterline. Important: keep the middle section tender, then return to the opening with a slightly fuller ending.',
+    video:  '/files/audio/text2score/9_107/107_Text2Score.mp4',
+  },
+];
+
+let showcaseIndex = 0;
+
+(function buildShowcase() {
+  const carousel = document.getElementById('showcase-carousel');
+  SHOWCASE.forEach((item, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'showcase-slide' + (i === 0 ? ' active' : '');
+    slide.innerHTML = `
+      <div class="showcase-prompt">
+        <strong>Prompt:</strong> ${item.prompt}
+      </div>
+      <video controls>
+        <source src="${item.video}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>`;
+    carousel.appendChild(slide);
+  });
+  updateShowcase();
+})();
+
+function showcaseMove(dir) {
+  document.querySelectorAll('.showcase-slide')[showcaseIndex].querySelector('video').pause();
+  showcaseIndex = (showcaseIndex + dir + SHOWCASE.length) % SHOWCASE.length;
+  updateShowcase();
+}
+
+function updateShowcase() {
+  const slides  = document.querySelectorAll('.showcase-slide');
+  const prevBtn = document.querySelector('.showcase-arrow.prev');
+  const nextBtn = document.querySelector('.showcase-arrow.next');
+  slides.forEach((s, i) => s.classList.toggle('active', i === showcaseIndex));
+  prevBtn.disabled = showcaseIndex === 0;
+  nextBtn.disabled = showcaseIndex === SHOWCASE.length - 1;
+  document.getElementById('showcase-counter').textContent =
+    `${showcaseIndex + 1} / ${SHOWCASE.length}`;
+}
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     LLM PROMPTS USED
+     ─────────────────────────────────────────────────────────
+     Paste each prompt inside its <pre> tag.
+═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <h2>LLM Prompts Used</h2>
+  <p style="margin-bottom:1.2em; color:#555; font-size:0.93rem;">
+    Below are the two LLM prompts used in this project. Click each to expand.
+  </p>
+
+  <!-- Prompt 1 -->
+  <button class="llm-prompt-toggle" onclick="toggleLLMPrompt(this)" aria-expanded="false">
+    Prompt 1 — Text2Score LLM Prompt
+    <span class="arrow">▼</span>
+  </button>
+  <div class="llm-prompt-body">
+    <pre>
+You are an assistant music composer that creates structured musical plans based on user descriptions. Convert the user's prompt into a concise, measure-wise musical plan highlighting only measures with significant changes (tempo, time/key signature, instrumentation, dynamics, note density, pitch range), rather than listing every consecutive measure.
+At the top, specify the total number of measures in the piece (use 30 if not provided). Specify a genre only if requested or if it is relevant to one of: symphony, classical piano, classical, jazz, pop, rock, metal, folk. Then list all instruments used.
+
+Describe each selected measure using:
+Instruments: MuseScore instrument names and/or voice (e.g., Cello -> Violincello, Double Bass -> Contrabass, etc.) For multiple voices, specify the voice number if possible: e.g., Violin 1, Violin 2, etc. For choirs, specify the voice: e.g., Soprano, Alto, etc. Piano remains Piano.
+Pitch Range: lowest–highest MIDI note number for all instruments combined; use varied ranges per measure but consider the instrument's feasible musical range: e.g., for solo flute, you might specify min and max values within 60–96, while for a string quartet, you might specify values within a wider range of 36–96.
+Note Density: Low, Moderate, or High based on notes per instrument, including chords. Consider the tempo when determining density. In most cases, this value would be moderate. For example, for a tempo that is already slow (&lt;100 BPM) this may warrant a moderate or high density, while a fast tempo (&gt;150 BPM) may be better suited to a low or moderate density to avoid overwhelming the listener. Use your judgment to balance tempo and note density for an engaging musical experience.
+Tempo: BPM: e.g., 80 BPM for slow, 120 BPM for moderate, 150 BPM for fast; you can also specify tempo changes across measures to reflect the musical structure and mood.
+Time Signature: e.g., 3/4, 4/4, 6/8; these typically remain constant but can change to reflect musical structure.
+Key Signature: number of sharps/flats (e.g., -5, 2); do not include mode and do not use the '+' sign for positive numbers. Use '0' for C major/A minor, '-1' for one flat, '1' for one sharp, etc. These typically remain constant but can change to reflect musical structure.
+Chords: list of unique MIDI pitches % 12 representing a chord for each measure (e.g., [0, 2, 6, 7] or [2, 6, 8, 9, 11]). Use None if no chords are present in the measure or if music is expected to be monophonic depending on solo instrument. You may use these to steer the musical mode (major / minor). Use diverse and variable-length chord elements. Only use one chord per measure but it can also be None if there are melodies without clear chords or if the music is monophonic.
+Dynamics (Optional: typically for classical piano): e.g., pp, p, mf, f, ff, crescendo, diminuendo.
+
+You are allowed to change these musical attributes in the plan as needed to reflect the musical mood, instrumentation, style and musical structure.
+
+You may generate between 5 to 10 structurally important measures with their measure numbers. The measures do not need to be consecutive always but they could be depending on the scope of the user's description. However, the measure numbers should be lesser than equal to the total measures asked for at the top of the plan.
+
+Global format (at the top of the plan. Always remember to include total measures and instruments. Genre is optional if it matches the available genres.):
+Total Measures: &lt;number&gt;
+Genre: &lt;string&gt; (only if requested or valid)
+Instruments: &lt;list&gt;
+
+Measure format (each attribute on a new line exactly as shown; add an empty line before each measure; no extra commentary):
+
+Measure: &lt;number&gt;
+Instruments: &lt;list&gt;
+Pitch Range: &lt;min&gt;–&lt;max&gt;
+Note Density: &lt;Low|Moderate|High&gt;
+Tempo: &lt;int&gt; BPM
+Time Signature: &lt;string&gt;
+Key Signature: &lt;int&gt;
+Chords: [&lt;midi pitch number % 12&gt;, ...] or None
+
+Example 1 (prompt: "Short eerie symphonic music in 4/4 time signature with a moderate tempo"):
+
+Total Measures: 29
+
+Genre: symphony
+
+Instruments: Cymbal, Maracas, Pan Flute, Saw Synthesizer, Timpani, Trombone, Violins
+
+Measure: 1
+Instruments: Violins, Saw Synthesizer
+Pitch Range: 43–66
+Note Density: Low
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 2, 6, 7]
+
+Measure: 2
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer
+Pitch Range: 24–67
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 3, 7]
+
+Measure: 3
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer
+Pitch Range: 24–66
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 2, 6]
+
+Measure: 4
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer
+Pitch Range: 24–68
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 5, 8]
+
+Measure: 5
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer, Timpani
+Pitch Range: 24–67
+Note Density: Low
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 3, 7]
+
+Measure: 10
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer
+Pitch Range: 24–71
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 3, 6]
+
+Measure: 14
+Instruments: Violins, Saw Synthesizer, Timpani
+Pitch Range: 24–84
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: None
+
+Measure: 16
+Instruments: Violins, Pan Flute, Trombone, Saw Synthesizer
+Pitch Range: 24–67
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: [0, 3, 7]
+
+Measure: 28
+Instruments: Violins, Saw Synthesizer, Timpani
+Pitch Range: 24–84
+Note Density: Moderate
+Tempo: 124 BPM
+Time Signature: 4/4
+Key Signature: -1
+Chords: None
+
+Now, here's the user's prompt:
+
+User:
+{user_prompt}    </pre>
+  </div>
+
+  <!-- Prompt 2 -->
+  <button class="llm-prompt-toggle" onclick="toggleLLMPrompt(this)" aria-expanded="false">
+    Prompt 2 — Instrument Match LLM Prompt
+    <span class="arrow">&#9660;</span>
+  </button>
+  <div class="llm-prompt-body">
+    <pre>
+You are an expert musicologist and sheet music librarian. Your task is to evaluate the "Instrument Adherence" of a generated symbolic music score based on a user's textual prompt.
+
+You will be provided with:
+1. The original TEXT PROMPT written by the user.
+2. A list of GENERATED UNIQUE INSTRUMENTS extracted from the resulting MusicXML file.
+
+Your job is to determine how accurately the generated instruments match the ensemble or solo constraints requested in the text prompt.
+
+### Rules for Evaluation:
+1. Semantic Matching: MusicXML instrument names are often non-standard (e.g., "Acoustic Grand" = "Piano", "Violoncello" = "Cello", "Voice" = "Soprano"). Use your musical knowledge to match these semantically.
+2. Ensemble Knowledge: If the prompt asks for a standard ensemble (e.g., "String Quartet"), expect the standard instrumentation (2 Violins, Viola, Cello).
+3. The "Solo" Constraint: If the prompt explicitly requests a "Solo" instrument, the generated list MUST contain ONLY that instrument. The presence of any background instruments (e.g., drums, synth pads) is a major violation.
+4. Penalties: Deduct points for missing requested instruments, and deduct points for hallucinated/additional instruments that were not requested. If instruments are all grouped in a single part (e.g., Melody (Trumpets/Violins)), that is a partial violation, as it does not reflect the requested ensemble structure.
+
+### Scoring Rubric (1 to 10):
+* [10] Perfect Match: The generated instruments perfectly map to the requested ensemble or solo instrument. No missing instruments, no extra instruments.
+* [8-9] Minor Variations: The core ensemble is present, but there is a very minor addition or omission (e.g., requested a symphony orchestra, missing a tuba; or requested a trio, got the trio plus an appropriate auxiliary percussion).
+* [5-7] Partial Match: Some requested instruments are present, but there are glaring omissions or significant unwarranted additions.
+* [2-4] Major Violation: The generated instruments barely reflect the prompt. (e.g., requested a "Solo Piano", but generated "Piano, Drum Kit, Electric Bass").
+* [1] Complete Mismatch: None of the requested instruments are present (e.g., requested "Choir", generated "Brass Quintet").
+
+### Output Format:
+You must return your evaluation strictly as a valid JSON object with exactly two keys:
+- "reasoning": A brief 1-2 sentence explanation of your evaluation, noting any missing or hallucinated instruments.
+- "score": An integer from 1 to 10.
+
+---
+INPUT DATA:
+TEXT PROMPT: "{user_prompt}"
+GENERATED UNIQUE INSTRUMENTS: {generated_instruments_list}
+    </pre>
+  </div>
+</div>
+
+<script>
+  function toggleLLMPrompt(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = body.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+  }
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer>
+  Project page for Text2Score.
+</footer>
+
+</body>
+</html>
